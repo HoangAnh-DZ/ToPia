@@ -1,46 +1,41 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement; // Bắt buộc có dòng này để load lại màn chơi
+using System.Collections;
 
 public class FallingLogic : MonoBehaviour
 {
-    [Header("Cấu hình vực thẳm")]
-    public float yThreshold = -10f; // Độ cao mà dưới mức này được coi là rơi xuống vực
-    public float timeToReset = 2f;  // Thời gian chờ trước khi reset (2 giây)
-
+    public float yThreshold = -10f;
+    public float timeToReset = 2f;
     private float timer = 0f;
     private bool isFalling = false;
+    public GameObject movementArrows;
+    private bool isHiding = false;
 
     void Update()
     {
-        // 1. Kiểm tra xem tọa độ Y của Tèo có thấp hơn ngưỡng cho phép không
+        if (movementArrows != null && movementArrows.activeSelf && !isHiding)
+        {
+            if (Input.GetMouseButtonDown(0)) StartCoroutine(HideArrowsRoutine());
+        }
+
         if (transform.position.y < yThreshold)
         {
-            if (!isFalling)
-            {
-                isFalling = true;
-                timer = 0f; // Bắt đầu đếm thời gian khi bắt đầu rơi
-                Debug.Log("Tèo đang rơi vào vô tận... Đang đếm ngược 2s");
-            }
+            if (!isFalling) { isFalling = true; timer = 0f; }
+            timer += Time.deltaTime;
 
-            timer += Time.deltaTime; // Cộng dồn thời gian trôi qua
-
-            // 2. Nếu thời gian rơi đã đủ 2 giây thì thực hiện Reset
             if (timer >= timeToReset)
             {
-                ResetLevel();
+                // GỌI STATE MACHINE THAY VÌ TỰ LOAD
+                GameManager.Instance.ChangeState(GameState.Respawning);
             }
         }
-        else
-        {
-            // Nếu Tèo vung cúp bám lại được và bay lên trên ngưỡng yThreshold
-            isFalling = false;
-            timer = 0f; // Reset bộ đếm
-        }
+        else { isFalling = false; timer = 0f; }
     }
 
-    void ResetLevel()
+    IEnumerator HideArrowsRoutine()
     {
-        // Load lại cảnh (scene) hiện tại để bắt đầu lại từ đầu
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        isHiding = true;
+        yield return new WaitForSeconds(0.5f);
+        if (movementArrows != null) movementArrows.SetActive(false);
+        isHiding = false;
     }
 }

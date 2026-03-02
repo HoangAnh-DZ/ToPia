@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Finish : MonoBehaviour
 {
@@ -8,16 +6,14 @@ public class Finish : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if (GoldCounter.Instance != null)
+            if (GoldCounter.Instance.CheckGold())
             {
-                if (GoldCounter.Instance.CheckGold() == true)
-                {
-                    GoldCounter.Instance.ShowVictoryScreen();
-                }
-                else
-                {
-                    GoldCounter.Instance.ShowNotEnoughGoldMessage();
-                }
+                // Yêu cầu GameManager chuyển sang trạng thái thắng
+                GameManager.Instance.ChangeState(GameState.Victory);
+            }
+            else
+            {
+                GoldCounter.Instance.ShowNotEnoughGoldMessage();
             }
         }
     }
