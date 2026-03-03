@@ -69,7 +69,12 @@ public class TNTLogic : MonoBehaviour
             }
         }
 
-        Debug.Log("BÙM! Đã dọn dẹp cả Prefab và Tilemap.");
+        if (GameIntro.Instance != null)
+        {
+            GameIntro.Instance.OnTNTExploded();
+        }
+
+        Destroy(gameObject);
         Destroy(gameObject);
     }
 

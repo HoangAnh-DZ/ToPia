@@ -12,7 +12,8 @@ public class FallingLogic : MonoBehaviour
 
     void Update()
     {
-        if (movementArrows != null && movementArrows.activeSelf && !isHiding)
+        // Chỉ cho phép ẩn mũi tên khi đã qua đoạn chào hỏi
+        if (GameIntro.canMove && movementArrows != null && movementArrows.activeSelf && !isHiding)
         {
             if (Input.GetMouseButtonDown(0)) StartCoroutine(HideArrowsRoutine());
         }
@@ -21,10 +22,8 @@ public class FallingLogic : MonoBehaviour
         {
             if (!isFalling) { isFalling = true; timer = 0f; }
             timer += Time.deltaTime;
-
             if (timer >= timeToReset)
             {
-                // GỌI STATE MACHINE THAY VÌ TỰ LOAD
                 GameManager.Instance.ChangeState(GameState.Respawning);
             }
         }
@@ -35,7 +34,12 @@ public class FallingLogic : MonoBehaviour
     {
         isHiding = true;
         yield return new WaitForSeconds(0.5f);
-        if (movementArrows != null) movementArrows.SetActive(false);
+        if (movementArrows != null)
+        {
+            movementArrows.SetActive(false);
+            // Kích hoạt bước tiếp theo trong chuỗi: TNT Tut
+            if (GameIntro.Instance != null) GameIntro.Instance.RequestShowTNTTutorial();
+        }
         isHiding = false;
     }
 }
