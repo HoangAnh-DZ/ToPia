@@ -134,7 +134,7 @@ public class GoldCounter : MonoBehaviour
     IEnumerator FlashMessage()
     {
         notifyText.gameObject.SetActive(true);
-        notifyText.text = "Chưa đủ sính lễ Tèo ơi!";
+        notifyText.text = "Chưa đủ vàng Tèo ơi !";
         yield return new WaitForSeconds(2f);
         notifyText.gameObject.SetActive(false);
     }

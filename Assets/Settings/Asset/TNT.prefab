@@ -100,8 +100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mau: 2
-  lucNo: 50
-  banKinhNo: 5
+  lucNo: 200
+  banKinhNo: 3
   layerAnhHuong:
     serializedVersion: 2
     m_Bits: 193
