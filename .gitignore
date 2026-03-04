@@ -1,0 +1,23 @@
+/[Ll]ibrary/
+/[Tt]emp/
+/[Obj]/
+/[Build]/
+/[Builds]/
+/[Logs]/
+/[UserSettings]/
+/[MemoryCaptures]/
+/ASSET_STORE_UPLOAD.bin
+/sysinfo.txt
+
+# Visual Studio / VS Code
+.vscode/
+.vs/
+*.csproj
+*.sln
+*.user
+*.userprefs
+*.suo
+
+# OS generated
+.DS_Store
+Thumbs.db
